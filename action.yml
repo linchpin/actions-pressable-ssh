@@ -1,4 +1,4 @@
-name: 'WP Engine SSH Setup'
+name: 'Pressable SSH Setup'
 description: 'Configures an SSH connection'
 inputs:
   ssh_user:
@@ -27,7 +27,7 @@ runs:
         chmod 600 "$SSH_KEY_PRIVATE_PATH"
 
         cat >>~/.ssh/config <<END
-        Host wpengine
+        Host pressable
           HostName ${{ inputs.ssh_host }}
           User ${{ inputs.ssh_user }}
           IdentityFile $SSH_KEY_PRIVATE_PATH

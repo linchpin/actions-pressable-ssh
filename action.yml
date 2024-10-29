@@ -1,6 +1,6 @@
 name: 'Pressable SSH Setup'
 description: 'Configures an SSH connection'
-inputs:
+secrets:
   ssh_user:
     description: 'SSH Username'
     required: true

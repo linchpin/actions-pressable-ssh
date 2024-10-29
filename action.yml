@@ -14,14 +14,14 @@ runs:
   using: 'composite'
   steps:
     - name: Auth SSH using Key
-      if: ${{ ssh_key }}
+      if: ${{ secrets.ssh_key }}
       run: |
         SSH_PATH="$HOME/.ssh"
         KNOWN_HOSTS_PATH="$SSH_PATH/known_hosts"
         SSH_KEY_PRIVATE_PATH="$SSH_PATH/github_action"
         mkdir -p "$SSH_PATH"
         mkdir -p "$SSH_PATH/ctl"
-        ssh-keyscan -t rsa "${{ inputs.ssh_host }}" >> "$KNOWN_HOSTS_PATH"
+        ssh-keyscan -t rsa "${{ secrets.ssh_host }}" >> "$KNOWN_HOSTS_PATH"
         echo "${{ inputs.ssh_key }}" > "$SSH_KEY_PRIVATE_PATH"
   
         chmod 700 "$SSH_PATH"
@@ -30,8 +30,8 @@ runs:
   
         cat >>~/.ssh/config <<END
         Host pressable
-          HostName ${{ inputs.ssh_host }}
-          User ${{ inputs.ssh_user }}
+          HostName ${{ secrets.ssh_host }}
+          User ${{ secrets.ssh_user }}
           IdentityFile $SSH_KEY_PRIVATE_PATH
           StrictHostKeyChecking no
           ControlMaster auto
@@ -39,21 +39,21 @@ runs:
         END
         shell: bash
     - name: Auth SSH using Pass
-      if: ${{ ssh_key }}
+      if: ${{ secrets.ssh_key }}
       run: |
         SSH_PATH="$HOME/.ssh"
         KNOWN_HOSTS_PATH="$SSH_PATH/known_hosts"
         mkdir -p "$SSH_PATH"
         mkdir -p "$SSH_PATH/ctl"
-        ssh-keyscan -t rsa "${{ inputs.ssh_host }}" >> "$KNOWN_HOSTS_PATH"
+        ssh-keyscan -t rsa "${{ secrets.ssh_host }}" >> "$KNOWN_HOSTS_PATH"
   
         chmod 700 "$SSH_PATH"
         chmod 644 "$KNOWN_HOSTS_PATH"
   
         cat >>~/.ssh/config <<END
         Host pressable
-          HostName ${{ inputs.ssh_host }}
-          User ${{ inputs.ssh_user }}
+          HostName ${{ secrets.ssh_host }}
+          User ${{ secrets.ssh_user }}
           StrictHostKeyChecking no
           ControlMaster auto
           ControlPath $SSH_PATH/ctl/%C

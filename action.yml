@@ -40,7 +40,7 @@ runs:
           ControlMaster auto
           ControlPath $SSH_PATH/ctl/%C
         END
-        shell: bash
+      shell: bash
     - name: Auth SSH using Pass
       if: ${{ inputs.ssh_pass }}
       run: |
@@ -55,10 +55,10 @@ runs:
   
         cat >>~/.ssh/config <<END
         Host pressable
-          HostName ${{ secrets.ssh_host }}
-          User ${{ secrets.ssh_user }}
+          HostName ${{ inputs.ssh_host }}
+          User ${{ inputs.ssh_user }}
           StrictHostKeyChecking no
           ControlMaster auto
           ControlPath $SSH_PATH/ctl/%C
         END
-        shell: bash
+      shell: bash
